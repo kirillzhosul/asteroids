@@ -16,8 +16,16 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float _rotateSpeed = 1.0f;
 
+    // Max thrust limit.
     [SerializeField]
     private float _maxThrust = 15.0f;
+
+    // You may shoot every that time.
+    [SerializeField]
+    private float _shootSpeedLimitTime = 1.0f;
+
+    // If true, we can shoot.
+    private bool _canShoot = true;
 
     // Is we thrusting or not.
     private bool _isThrusting = false;
@@ -35,6 +43,15 @@ public class Player : MonoBehaviour
     {
         // Grab our rigidbody.
         this._rigidbody = GetComponent<Rigidbody2D>();
+    }
+
+    /// <summary>
+    /// Reset can shoot value (reset shoot speed limit).
+    /// </summary>
+    private void ResetShootSpeedLimit()
+    {
+        // Reset.
+        this._canShoot = true;
     }
 
     /// <summary>
@@ -86,10 +103,17 @@ public class Player : MonoBehaviour
     /// </summary>
     private void Shoot()
     {
+        // Return if not can shoot.
+        if (!this._canShoot) return;
+
         // Instantiate bullet.
         Bullet bullet = Instantiate(this._bulletPrefab, this.transform.position, this.transform.rotation);
 
         // Project bullet.
         bullet.Project(this.transform.up);
+
+        // Reset can shoot.
+        this._canShoot = false;
+        Invoke("ResetShootSpeedLimit", _shootSpeedLimitTime);
     }
 }
