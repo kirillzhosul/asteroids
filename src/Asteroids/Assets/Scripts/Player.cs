@@ -8,6 +8,10 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float _thrustSpeed = 1.0f;
 
+    // Bullet prefab for shooting.
+    [SerializeField]
+    private Bullet _bulletPrefab = null;
+
     // Speed for rotation.
     [SerializeField]
     private float _rotateSpeed = 1.0f;
@@ -21,7 +25,7 @@ public class Player : MonoBehaviour
     // Direction in which we rotation.
     private float _rotateDirection = 0.0f;
 
-    // Our player rigidbody.
+    // Our rigidbody.
     private Rigidbody2D _rigidbody = null;
 
     /// <summary>
@@ -43,6 +47,13 @@ public class Player : MonoBehaviour
 
         // Update our rotate direction.
         this._rotateDirection = Input.GetAxis("Horizontal");
+
+        // Shoot if we press shoot button.
+        if (Input.GetButtonDown("Shoot"))
+        {
+            // Shoot.
+            Shoot();
+        }
     }
 
     /// <summary>
@@ -68,5 +79,17 @@ public class Player : MonoBehaviour
 
         // Clamp max thrust.
         _rigidbody.velocity = Vector3.ClampMagnitude(_rigidbody.velocity, _maxThrust);
+    }
+
+    /// <summary>
+    /// Creates and projects bullet.
+    /// </summary>
+    private void Shoot()
+    {
+        // Instantiate bullet.
+        Bullet bullet = Instantiate(this._bulletPrefab, this.transform.position, this.transform.rotation);
+
+        // Project bullet.
+        bullet.Project(this.transform.up);
     }
 }
