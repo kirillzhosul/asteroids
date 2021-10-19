@@ -24,6 +24,17 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float _shootSpeedLimitTime = 1.0f;
 
+    // Start immortal time.
+    [SerializeField]
+    private float _startImmortalTime = 3.0f;
+
+    // Start immortal blink speed.
+    [SerializeField]
+    private float _immortalBlinkDelay = 0.5f;
+
+    // Is we immortal or not.
+    private bool _isImmortal = true;
+
     // If true, we can shoot.
     private bool _canShoot = true;
 
@@ -36,6 +47,9 @@ public class Player : MonoBehaviour
     // Our rigidbody.
     private Rigidbody2D _rigidbody = null;
 
+    // Our sprite renderer.
+    private SpriteRenderer _spriteRenderer = null;
+
     /// <summary>
     /// Initialising physics at awakening.
     /// </summary>
@@ -43,6 +57,18 @@ public class Player : MonoBehaviour
     {
         // Grab our rigidbody.
         this._rigidbody = GetComponent<Rigidbody2D>();
+
+        // Grab our sprite renderer.
+        this._spriteRenderer = GetComponent<SpriteRenderer>();
+    }
+
+    /// <summary>
+    /// Start initialisation.
+    /// </summary>
+    private void Start()
+    {
+        // Start immortal.
+        StartCoroutine(StartImmortal());
     }
 
     /// <summary>
@@ -116,4 +142,40 @@ public class Player : MonoBehaviour
         this._canShoot = false;
         Invoke("ResetShootSpeedLimit", _shootSpeedLimitTime);
     }
+
+    /// <summary>
+    /// Start immortal state.
+    /// </summary>
+    public IEnumerator StartImmortal()
+    {
+        // Enable immortal.
+        this._isImmortal = true;
+
+        // Start indication.
+        StartCoroutine(IndicateImmortal());
+
+        // Wait time.
+        yield return new WaitForSeconds(this._startImmortalTime);
+
+        // Disable immortal.
+        this._isImmortal = false;
+    }
+
+    /// <summary>
+    /// Indicates immortal.
+    /// </summary>
+    private IEnumerator IndicateImmortal()
+    {
+        while (this._isImmortal)
+        {
+            // While we are immortal.
+
+            // Switch.
+            _spriteRenderer.enabled = false;
+            yield return new WaitForSeconds(this._immortalBlinkDelay);
+            _spriteRenderer.enabled = true;
+            yield return new WaitForSeconds(this._immortalBlinkDelay);
+        }
+    }
+
 }
