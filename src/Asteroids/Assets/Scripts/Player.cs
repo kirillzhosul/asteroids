@@ -12,6 +12,9 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float _rotateSpeed = 1.0f;
 
+    [SerializeField]
+    private float _maxThrust = 15.0f;
+
     // Is we thrusting or not.
     private bool _isThrusting = false;
 
@@ -62,7 +65,8 @@ public class Player : MonoBehaviour
             // Add torque.
             _rigidbody.AddTorque(this._rotateDirection * -1 * this._rotateSpeed);
         }
-        
-    }
 
+        // Clamp max thrust.
+        _rigidbody.velocity = Vector3.ClampMagnitude(_rigidbody.velocity, _maxThrust);
+    }
 }
