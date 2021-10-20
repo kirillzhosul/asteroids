@@ -32,6 +32,20 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float _immortalBlinkDelay = 0.5f;
 
+    // Default score.
+    [SerializeField]
+    private int _defaultScore = 0;
+
+    // Default lives.
+    [SerializeField]
+    private int _defaultLives = 3;
+
+    // Default score counter.
+    private int _score;
+
+    // Default lives counter.
+    private int _lives;
+
     // Is we immortal or not.
     private bool _isImmortal = true;
 
@@ -73,6 +87,9 @@ public class Player : MonoBehaviour
     /// </summary>
     private void Start()
     {
+        // Reset score and lives to default.
+        this.ResetScoreAndLives();
+
         // Start immortal.
         StartCoroutine(StartImmortal());
     }
@@ -207,8 +224,42 @@ public class Player : MonoBehaviour
 
                 // Call player died of player respawner object method.
                 this._respawner.PlayerDied();
+
+                // Decrease lives.
+                this._lives --;
             }
         }
+    }
+
+    /// <summary>
+    /// Returns lives.
+    /// </summary>
+    /// <returns>Lives</returns>
+    public int GetLives()
+    {
+        // Return lives.
+        return this._lives;
+    }
+
+    /// <summary>
+    /// Increase score by given amount.
+    /// </summary>
+    /// <param name="amount">Amount to add</param>
+    public void AddScore(int amount)
+    {
+        // Add score.
+        this._score += amount;
+    }
+
+    /// <summary>
+    /// Reset values to zero.
+    /// </summary>
+    public void ResetScoreAndLives()
+    {
+        // Reset score.
+        this._score = this._defaultScore;
+        // Reset lives.
+        this._lives = this._defaultLives;
     }
 
     /// <summary>

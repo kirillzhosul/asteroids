@@ -81,9 +81,11 @@ public class Asteroid : MonoBehaviour
                 this.Split();
             }
 
+            // Add score to player.
+            FindObjectOfType<Player>().AddScore(this.GetScoreReward());
+
             // Destroy self.
             Destroy(this.gameObject);
-
         }
     }
 
@@ -107,6 +109,21 @@ public class Asteroid : MonoBehaviour
         this.transform.localScale = Vector3.one * this._size;
     }
 
+    /// <summary>
+    /// Returns asteroid score rewars.
+    /// </summary>
+    /// <returns>Score reward</returns>
+    private int GetScoreReward()
+    {
+        // Get value.
+        switch (this._size)
+        {
+            default:
+            case 1: return 100;
+            case 2: return 50;
+            case 3: return 20;
+        }
+    }
     /// <summary>
     /// Splits asteroids in half.
     /// </summary>

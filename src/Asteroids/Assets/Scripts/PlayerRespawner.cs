@@ -19,11 +19,20 @@ public class PlayerRespawner : MonoBehaviour
         // Grab our player.
         this._player = FindObjectOfType<Player>();
     }
+
     /// <summary>
     /// Should be called when player is died from player, respawn player after some respawn delay time.
     /// </summary>
     public void PlayerDied()
     {
+        if (this._player.GetLives() == 0)
+        {
+            // If no more lives.
+
+            // Reset player.
+            this._player.ResetScoreAndLives();
+        }
+
         // Call respawn after delay.
         Invoke(nameof(RespawnPlayer), _respawnDelay);
     }
