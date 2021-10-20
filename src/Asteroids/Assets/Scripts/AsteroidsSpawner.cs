@@ -36,11 +36,17 @@ public class AsteroidsSpawner : MonoBehaviour
     [SerializeField]
     private float _spawnDelay = 3.0f;
 
+    // Explosion audio source.
+    private AudioSource _explosionAudioSource = null;
+
     /// <summary>
     /// Initialises spawner.
     /// </summary>
     private void Start()
     {
+        // Get audio source.
+        _explosionAudioSource = GetComponent<AudioSource>();
+
         // Spawn one at the start.
         Spawn();
 
@@ -51,11 +57,20 @@ public class AsteroidsSpawner : MonoBehaviour
         } 
     }
     
+    /// <summary>
+    /// Plays explode event.
+    /// </summary>
+    /// <param name="at"> Position to play at. </param>
+    /// <param name="size"></param>
     public void PlayExplodeEffect(Vector3 at, float size)
     {
+        // Play particles.
         this._explosionEffect.transform.localScale = Vector3.one * size;
         this._explosionEffect.transform.position = at;
         this._explosionEffect.Play();
+
+        // Audio source.
+        this._explosionAudioSource.Play(0);
     }
 
     /// <summary>

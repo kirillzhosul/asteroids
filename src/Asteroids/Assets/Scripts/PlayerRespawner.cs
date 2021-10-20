@@ -11,6 +11,9 @@ public class PlayerRespawner : MonoBehaviour
     // Player object.
     private Player _player = null;
 
+    // Death audio source.
+    private AudioSource _deathAudioSource = null;
+
     /// <summary>
     /// Initialising.
     /// </summary>
@@ -18,6 +21,9 @@ public class PlayerRespawner : MonoBehaviour
     {
         // Grab our player.
         this._player = FindObjectOfType<Player>();
+
+        // Get audio source.
+        this._deathAudioSource = this.GetComponent<AudioSource>();
     }
 
     /// <summary>
@@ -25,6 +31,9 @@ public class PlayerRespawner : MonoBehaviour
     /// </summary>
     public void PlayerDied()
     {
+        // Play death sound.
+        this._deathAudioSource.Play(0);
+
         // Call respawn after delay.
         Invoke(nameof(RespawnPlayer), _respawnDelay);
     }
