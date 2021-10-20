@@ -6,11 +6,12 @@ TagManager:
   tags:
   - Bullet
   - Asteroid
+  - Boundary
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Boundary
   - Water
   - UI
   - Player
