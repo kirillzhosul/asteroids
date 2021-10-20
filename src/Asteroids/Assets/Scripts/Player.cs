@@ -51,7 +51,7 @@ public class Player : MonoBehaviour
     private SpriteRenderer _spriteRenderer = null;
 
     /// <summary>
-    /// Initialising physics at awakening.
+    /// Initialising at awakening.
     /// </summary>
     private void Awake()
     {
@@ -140,7 +140,7 @@ public class Player : MonoBehaviour
 
         // Reset can shoot.
         this._canShoot = false;
-        Invoke("ResetShootSpeedLimit", _shootSpeedLimitTime);
+        Invoke(nameof(ResetShootSpeedLimit), _shootSpeedLimitTime);
     }
 
     /// <summary>

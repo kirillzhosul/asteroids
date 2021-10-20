@@ -36,4 +36,14 @@ public class Bullet : MonoBehaviour
         // Destroy after lifetime ends.
         Destroy(this.gameObject, _lifetime);
     }
+
+    /// <summary>
+    /// When we enter collision 2D.
+    /// </summary>
+    /// <param name="collision"> Other collision. </param>
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        // Destroy self.
+        Destroy(this.gameObject);
+    }
 }
