@@ -20,6 +20,14 @@ public class AsteroidsSpawner : MonoBehaviour
     [SerializeField]
     private bool _spawnEnabled = false;
 
+    // Time for respawn new asteroids.
+    [SerializeField]
+    public float respawnAfter = 2.0f;
+
+    // If true, enables more spawning from counter.
+    [SerializeField]
+    private bool _spawnAmountIncreasingEnabled = true;
+
     // Spawn delay for spawner.
     [SerializeField]
     private float _spawnDelay = 3.0f;
@@ -36,14 +44,13 @@ public class AsteroidsSpawner : MonoBehaviour
         if (_spawnEnabled)
         {
             InvokeRepeating(nameof(Spawn), this._spawnDelay, this._spawnDelay);
-        }
-        
+        } 
     }
     
     /// <summary>
     /// Spawns new asteroid.
     /// </summary>
-    private void Spawn()
+    public void Spawn()
     {
         for (int i = 0; i < this._spawnAmount; i++)
         {
@@ -60,6 +67,12 @@ public class AsteroidsSpawner : MonoBehaviour
             // Create new asteroid.
             Asteroid asteroid = Instantiate(this._asteroidPrefab, spawnPosition, rotation);
         }
-        
+
+        // Increase spawn amount.
+        if (this._spawnAmountIncreasingEnabled)
+        {
+            // Increase spawn amount.
+            this._spawnAmount ++;
+        }
     }
 }
