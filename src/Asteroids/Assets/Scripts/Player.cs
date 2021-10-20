@@ -50,6 +50,9 @@ public class Player : MonoBehaviour
     // Our sprite renderer.
     private SpriteRenderer _spriteRenderer = null;
 
+    // Our player respawner.
+    private PlayerRespawner _respawner = null;
+
     /// <summary>
     /// Initialising at awakening.
     /// </summary>
@@ -60,6 +63,9 @@ public class Player : MonoBehaviour
 
         // Grab our sprite renderer.
         this._spriteRenderer = GetComponent<SpriteRenderer>();
+
+        // Grab our player respawner.
+        this._respawner = FindObjectOfType<PlayerRespawner>();
     }
 
     /// <summary>
@@ -178,4 +184,39 @@ public class Player : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Check for collision.
+    /// </summary>
+    /// <param name="collision"> Other collide object. </param>
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Asteroid")
+        {
+            // If this is asteroid.
+
+            if (!this._isImmortal)
+            {
+                // If we are not immortal.
+
+                // Set velocity to zero.
+                this._rigidbody.velocity = Vector3.zero;
+                this._rigidbody.angularVelocity = 0.0f;
+
+                // Disable our game object.
+                this.gameObject.SetActive(false);
+
+                // Call player died of player respawner object method.
+                this._respawner.PlayerDied();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Enables immortal state.
+    /// </summary>
+    public void EnableImmortal()
+    {
+        // Enable immortal.
+        StartCoroutine(StartImmortal());
+    }
 }

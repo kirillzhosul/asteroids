@@ -32,7 +32,8 @@ public class Asteroid : MonoBehaviour
         this._spriteRenderer = GetComponent<SpriteRenderer>();
 
         // Grab our spawner.
-        this._spawner = GameObject.Find("AsteroidsSpawner").GetComponent<AsteroidsSpawner>();
+        // GameObject.Find("AsteroidsSpawner").
+        this._spawner = FindObjectOfType<AsteroidsSpawner>();
     }
 
     /// <summary>
