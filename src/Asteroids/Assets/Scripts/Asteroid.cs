@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class Asteroid : MonoBehaviour
 {
+
     // Sprites array.
     [SerializeField]
     private Sprite[] _sprites;
 
     // Our rigidbody.
     private Rigidbody2D _rigidbody = null;
+
 
     // Our sprite renderer.
     private SpriteRenderer _spriteRenderer = null;
@@ -82,7 +84,11 @@ public class Asteroid : MonoBehaviour
             }
 
             // Add score to player.
-            FindObjectOfType<Player>().AddScore(this.GetScoreReward());
+            Player player = FindObjectOfType<Player>();
+            if (player != null) player.AddScore(this.GetScoreReward());
+
+            // Play destroy effect.
+            this._spawner.PlayExplodeEffect(this.transform.position, this._size);
 
             // Destroy self.
             Destroy(this.gameObject);

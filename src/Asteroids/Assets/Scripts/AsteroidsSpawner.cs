@@ -8,6 +8,10 @@ public class AsteroidsSpawner : MonoBehaviour
     [SerializeField]
     private Asteroid _asteroidPrefab = null;
 
+    // Asteroid destroy effect.
+    [SerializeField]
+    private ParticleSystem _explosionEffect;
+
     // Spawn amount to spawn.
     [SerializeField]
     private int _spawnAmount = 1;
@@ -47,6 +51,13 @@ public class AsteroidsSpawner : MonoBehaviour
         } 
     }
     
+    public void PlayExplodeEffect(Vector3 at, float size)
+    {
+        this._explosionEffect.transform.localScale = Vector3.one * size;
+        this._explosionEffect.transform.position = at;
+        this._explosionEffect.Play();
+    }
+
     /// <summary>
     /// Spawns new asteroid.
     /// </summary>
