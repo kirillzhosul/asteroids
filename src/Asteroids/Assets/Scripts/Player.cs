@@ -233,12 +233,12 @@ public class Player : MonoBehaviour
                 // Disable our game object.
                 this.gameObject.SetActive(false);
 
+                // Decrease lives.
+                this._lives--;
+                this._livesText.text = this._lives.ToString();
+
                 // Call player died of player respawner object method.
                 this._respawner.PlayerDied();
-
-                // Decrease lives.
-                this._lives --;
-                this._livesText.text = this._lives.ToString();
             }
         }
     }

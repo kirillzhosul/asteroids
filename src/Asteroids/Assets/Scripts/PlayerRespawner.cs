@@ -25,14 +25,6 @@ public class PlayerRespawner : MonoBehaviour
     /// </summary>
     public void PlayerDied()
     {
-        if (this._player.GetLives() == 0)
-        {
-            // If no more lives.
-
-            // Reset player.
-            this._player.ResetScoreAndLives();
-        }
-
         // Call respawn after delay.
         Invoke(nameof(RespawnPlayer), _respawnDelay);
     }
@@ -46,5 +38,13 @@ public class PlayerRespawner : MonoBehaviour
         this._player.gameObject.SetActive(true);
         this._player.transform.position = Vector3.zero;
         this._player.EnableImmortal();
+
+        if (this._player.GetLives() == 0)
+        {
+            // If no more lives.
+
+            // Reset player.
+            this._player.ResetScoreAndLives();
+        }
     }
 }
