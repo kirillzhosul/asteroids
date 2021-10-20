@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -31,6 +32,14 @@ public class Player : MonoBehaviour
     // Start immortal blink speed.
     [SerializeField]
     private float _immortalBlinkDelay = 0.5f;
+
+    // Score text object.
+    [SerializeField]
+    private Text _scoreText;
+
+    // Lives text object.
+    [SerializeField]
+    private Text _livesText;
 
     // Default score.
     [SerializeField]
@@ -89,6 +98,8 @@ public class Player : MonoBehaviour
     {
         // Reset score and lives to default.
         this.ResetScoreAndLives();
+        this._scoreText.text = this._score.ToString();
+        this._livesText.text = this._lives.ToString();
 
         // Start immortal.
         StartCoroutine(StartImmortal());
@@ -227,6 +238,7 @@ public class Player : MonoBehaviour
 
                 // Decrease lives.
                 this._lives --;
+                this._livesText.text = this._lives.ToString();
             }
         }
     }
@@ -249,6 +261,7 @@ public class Player : MonoBehaviour
     {
         // Add score.
         this._score += amount;
+        this._scoreText.text = this._score.ToString();
     }
 
     /// <summary>
@@ -258,8 +271,11 @@ public class Player : MonoBehaviour
     {
         // Reset score.
         this._score = this._defaultScore;
+        this._scoreText.text = this._score.ToString();
+
         // Reset lives.
         this._lives = this._defaultLives;
+        this._livesText.text = this._lives.ToString();
     }
 
     /// <summary>
