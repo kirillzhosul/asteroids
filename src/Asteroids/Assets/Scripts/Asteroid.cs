@@ -1,17 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Asteroid : MonoBehaviour
 {
-
     // Sprites array.
     [SerializeField]
     private Sprite[] _sprites;
 
+    // Scores 
+    [SerializeField]
+    private int[] _scores = { 100, 50, 20 };
+
     // Our rigidbody.
     private Rigidbody2D _rigidbody = null;
-
 
     // Our sprite renderer.
     private SpriteRenderer _spriteRenderer = null;
@@ -22,20 +22,23 @@ public class Asteroid : MonoBehaviour
     // Size of the asteroid.
     private int _size = 3;
 
+    // Bullet tag.
+    private const string TAG_BULLET = "Bullet";
+
     /// <summary>
     /// Initialising at awakening.
     /// </summary>
     private void Awake()
     {
         // Grab our rigidbody.
-        this._rigidbody = GetComponent<Rigidbody2D>();
+        if (this._rigidbody == null) this._rigidbody = GetComponent<Rigidbody2D>();
 
         // Grab our sprite renderer.
-        this._spriteRenderer = GetComponent<SpriteRenderer>();
+        if (this._spriteRenderer == null) this._spriteRenderer = GetComponent<SpriteRenderer>();
 
         // Grab our spawner.
         // GameObject.Find("AsteroidsSpawner").
-        this._spawner = FindObjectOfType<AsteroidsSpawner>();
+        if (this._spawner == null) this._spawner = FindObjectOfType<AsteroidsSpawner>();
     }
 
     /// <summary>
@@ -59,7 +62,7 @@ public class Asteroid : MonoBehaviour
     /// <param name="collision"> Other collision. </param>
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Bullet")
+        if (collision.gameObject.CompareTag(TAG_BULLET))
         {
             // If this is bullet.
 
@@ -70,10 +73,8 @@ public class Asteroid : MonoBehaviour
                 // Spawn new.
                 if (GameObject.FindGameObjectsWithTag("Asteroid").Length == 1)
                 {
-                    // Spawn
-                    this.SpawnerSpawn();
                     // Spawn after time.
-                    //Invoke(nameof(SpawnerSpawn), this._spawner.respawnAfter);
+                    Invoke(nameof(this._spawner.Spawn), this._spawner.respawnAfter);
                 }
             }
             else
@@ -96,15 +97,6 @@ public class Asteroid : MonoBehaviour
     }
 
     /// <summary>
-    /// Spawn from spawner.
-    /// </summary>
-    private void SpawnerSpawn()
-    {
-        // Spawn.
-        this._spawner.Spawn();
-    }
-
-    /// <summary>
     /// Sets size for asteroid.
     /// </summary>
     /// <param name="size">Size to set.</param>
@@ -121,15 +113,14 @@ public class Asteroid : MonoBehaviour
     /// <returns>Score reward</returns>
     private int GetScoreReward()
     {
-        // Get value.
-        switch (this._size)
-        {
-            default:
-            case 1: return 100;
-            case 2: return 50;
-            case 3: return 20;
-        }
+        // Check if valid.
+        if (this._size <= 1) return 0;
+        if (this._size >= this._scores.Length) return 0;
+
+        // Returning score.
+        return this._scores[this._size - 1];
     }
+
     /// <summary>
     /// Splits asteroids in half.
     /// </summary>

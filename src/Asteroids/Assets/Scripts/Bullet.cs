@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
@@ -21,7 +19,7 @@ public class Bullet : MonoBehaviour
     private void Awake()
     {
         // Grab our rigidbody.
-        this._rigidbody = GetComponent<Rigidbody2D>();
+        if (this._rigidbody == null) this._rigidbody = GetComponent<Rigidbody2D>();
     }
 
     /// <summary>

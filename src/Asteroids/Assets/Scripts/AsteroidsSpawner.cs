@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class AsteroidsSpawner : MonoBehaviour
@@ -40,13 +38,19 @@ public class AsteroidsSpawner : MonoBehaviour
     private AudioSource _explosionAudioSource = null;
 
     /// <summary>
+    /// Component initialisation.
+    /// </summary>
+    private void Awake()
+    {
+        // Get audio source.
+        if (this._explosionAudioSource == null) _explosionAudioSource = GetComponent<AudioSource>();
+    }
+
+    /// <summary>
     /// Initialises spawner.
     /// </summary>
     private void Start()
     {
-        // Get audio source.
-        _explosionAudioSource = GetComponent<AudioSource>();
-
         // Spawn one at the start.
         Spawn();
 
@@ -91,7 +95,7 @@ public class AsteroidsSpawner : MonoBehaviour
             Quaternion rotation = Quaternion.AngleAxis(variance, this.transform.forward);
 
             // Create new asteroid.
-            Asteroid asteroid = Instantiate(this._asteroidPrefab, spawnPosition, rotation);
+            Instantiate(this._asteroidPrefab, spawnPosition, rotation);
         }
 
         // Increase spawn amount.
@@ -100,5 +104,14 @@ public class AsteroidsSpawner : MonoBehaviour
             // Increase spawn amount.
             this._spawnAmount ++;
         }
+    }
+
+    /// <summary>
+    /// Resets spawn amount.
+    /// </summary>
+    public void ResetSpawnAmount()
+    {
+        // Reset.
+        this._spawnAmount = 0;
     }
 }

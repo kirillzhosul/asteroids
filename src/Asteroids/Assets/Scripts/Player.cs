@@ -82,13 +82,13 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         // Grab our rigidbody.
-        this._rigidbody = GetComponent<Rigidbody2D>();
+        if (this._rigidbody == null) this._rigidbody = GetComponent<Rigidbody2D>();
 
         // Grab our sprite renderer.
-        this._spriteRenderer = GetComponent<SpriteRenderer>();
+        if (this._spriteRenderer) this._spriteRenderer = GetComponent<SpriteRenderer>();
 
         // Grab our player respawner.
-        this._respawner = FindObjectOfType<PlayerRespawner>();
+        if (this._respawner) this._respawner = FindObjectOfType<PlayerRespawner>();
     }
 
     /// <summary>
@@ -101,8 +101,8 @@ public class Player : MonoBehaviour
         this._scoreText.text = this._score.ToString();
         this._livesText.text = this._lives.ToString();
 
-        // Start immortal.
-        StartCoroutine(StartImmortal());
+        // Enable immortal.
+        this.EnableImmortal();
     }
 
     /// <summary>

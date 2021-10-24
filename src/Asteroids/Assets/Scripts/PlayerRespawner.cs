@@ -20,10 +20,10 @@ public class PlayerRespawner : MonoBehaviour
     public void Awake()
     {
         // Grab our player.
-        this._player = FindObjectOfType<Player>();
+        if (this._player == null) this._player = FindObjectOfType<Player>();
 
         // Get audio source.
-        this._deathAudioSource = this.GetComponent<AudioSource>();
+        if (this._deathAudioSource == null) this._deathAudioSource = this.GetComponent<AudioSource>();
     }
 
     /// <summary>
@@ -47,6 +47,10 @@ public class PlayerRespawner : MonoBehaviour
         this._player.gameObject.SetActive(true);
         this._player.transform.position = Vector3.zero;
         this._player.EnableImmortal();
+
+        // Reset spawner count.
+        AsteroidsSpawner spawner = FindObjectOfType<AsteroidsSpawner>();
+        if (spawner == null) spawner.ResetSpawnAmount();
 
         if (this._player.GetLives() == 0)
         {
