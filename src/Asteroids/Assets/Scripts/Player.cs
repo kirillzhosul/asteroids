@@ -85,10 +85,10 @@ public class Player : MonoBehaviour
         if (this._rigidbody == null) this._rigidbody = GetComponent<Rigidbody2D>();
 
         // Grab our sprite renderer.
-        if (this._spriteRenderer) this._spriteRenderer = GetComponent<SpriteRenderer>();
+        if (this._spriteRenderer == null) this._spriteRenderer = GetComponent<SpriteRenderer>();
 
         // Grab our player respawner.
-        if (this._respawner) this._respawner = FindObjectOfType<PlayerRespawner>();
+        if (this._respawner == null) this._respawner = FindObjectOfType<PlayerRespawner>();
     }
 
     /// <summary>
