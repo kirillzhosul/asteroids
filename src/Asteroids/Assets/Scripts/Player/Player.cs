@@ -1,9 +1,9 @@
-using System.Collections;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(SpriteRenderer))]
+[RequireComponent(typeof(PlayerImmortalIndicator))]
 public class Player : MonoBehaviour
 {
     // Speed for thrusting.
@@ -23,9 +23,6 @@ public class Player : MonoBehaviour
 
     // Start immortal time.
     [SerializeField] private float _startImmortalTime = 3.0f;
-
-    // Start immortal blink speed.
-    [SerializeField] private float _immortalBlinkDelay = 0.5f;
 
     // Score text object.
     [SerializeField] private Text _scoreText;
@@ -60,8 +57,14 @@ public class Player : MonoBehaviour
 
     // Components.
     private Rigidbody2D _rigidbody = null;
-    private SpriteRenderer _spriteRenderer = null;
     private PlayerRespawner _respawner = null;
+    private PlayerImmortalIndicator _playerImmortalIndicator = null;
+
+    // Is immortal property.
+    public bool isImmortal { 
+        get { return _isImmortal;  }
+        private set { _isImmortal = value; } 
+    }
 
     /// <summary>
     /// Initialising components at awakening.
@@ -71,8 +74,8 @@ public class Player : MonoBehaviour
         // Grab rigidbody.
         if (_rigidbody == null) _rigidbody = GetComponent<Rigidbody2D>();
 
-        // Grab sprite renderer.
-        if (_spriteRenderer == null) _spriteRenderer = GetComponent<SpriteRenderer>();
+        // Grab immortal indicator.
+        if (_playerImmortalIndicator == null) _playerImmortalIndicator = GetComponent<PlayerImmortalIndicator>();
 
         // Grab our player respawner.
         if (_respawner == null) _respawner = FindObjectOfType<PlayerRespawner>();
@@ -205,50 +208,6 @@ public class Player : MonoBehaviour
     }
 
     /// <summary>
-    /// Start immortal state.
-    /// </summary>
-    private IEnumerator StartImmortal()
-    {
-        // Enable immortal state.
-        _isImmortal = true;
-
-        // Start indication.
-        StartCoroutine(IndicateImmortal());
-
-        // Wait time.
-        yield return new WaitForSeconds(_startImmortalTime);
-
-        // Disable immortal state.
-        _isImmortal = false;
-    }
-
-    /// <summary>
-    /// Indicates immortal.
-    /// </summary>
-    private IEnumerator IndicateImmortal()
-    {
-        while (_isImmortal)
-        {
-            // While we are immortal.
-
-            // Switch.
-            _spriteRenderer.enabled = false;
-            yield return new WaitForSeconds(_immortalBlinkDelay);
-            _spriteRenderer.enabled = true;
-            yield return new WaitForSeconds(_immortalBlinkDelay);
-        }
-    }
-
-    /// <summary>
-    /// Enables immortal state.
-    /// </summary>
-    public void EnableImmortal()
-    {
-        // Enable immortal.
-        StartCoroutine(StartImmortal());
-    }
-
-    /// <summary>
     /// Increase score by given amount.
     /// </summary>
     /// <param name="amount">Amount to add</param>
@@ -271,5 +230,29 @@ public class Player : MonoBehaviour
             // Reset player.
             ResetScoreAndLives();
         }
+
+        // Reset player position.
+        transform.position = Vector3.zero;
+
+        // Enable immortal.
+        EnableImmortal();
+    }
+
+    /// <summary>
+    /// Enables immortal state.
+    /// </summary>
+    private async void EnableImmortal()
+    {
+        // Enable immortal state.
+        _isImmortal = true;
+
+        // Start indication.
+        _playerImmortalIndicator.IndicateImmortal();
+
+        // Wait time.
+        await Task.Delay((int)(_startImmortalTime * 1000));
+
+        // Disable immortal state.
+        _isImmortal = false;
     }
 }

@@ -5551,7 +5551,7 @@ MonoBehaviour:
   _explosionEffect: {fileID: 189299258}
   _spawnAmount: 2
   _spawnDistance: 3
-  _spawnEnabled: 0
+  _spawnByTimeEnabled: 0
   respawnAfter: 2
   _spawnAmountIncreasingEnabled: 1
   _spawnDelay: 3
@@ -5757,7 +5757,7 @@ GameObject:
   - component: {fileID: 1379014556}
   - component: {fileID: 1379014555}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: Interface
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6043,7 +6043,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _thrustSpeed: 10
-  _bulletPrefab: {fileID: 9047311686624603350, guid: f39dd580d2361504f8ed1b17c3215142, type: 3}
+  _bulletPrefab: {fileID: 2169260739055376910, guid: f39dd580d2361504f8ed1b17c3215142, type: 3}
   _rotateSpeed: 10
   _maxThrust: 3
   _shootSpeedLimitTime: 0.33333334
@@ -6065,7 +6065,7 @@ GameObject:
   - component: {fileID: 1545747282}
   - component: {fileID: 1545747281}
   m_Layer: 0
-  m_Name: EventSystem
+  m_Name: Controller
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

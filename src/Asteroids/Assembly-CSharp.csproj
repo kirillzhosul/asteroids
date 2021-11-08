@@ -54,10 +54,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Bullet\Bullet.cs" />
-    <Compile Include="Assets\Scripts\Player\PlayerRespawner.cs" />
+    <Compile Include="Assets\Scripts\PlayerRespawner\PlayerRespawner.cs" />
     <Compile Include="Assets\Scripts\Asteroid\Asteroid.cs" />
     <Compile Include="Assets\Scripts\Player\Player.cs" />
     <Compile Include="Assets\Scripts\Asteroid\AsteroidsSpawner.cs" />
+    <Compile Include="Assets\Scripts\Player\PlayerImmortalIndicator.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
